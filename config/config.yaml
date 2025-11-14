@@ -1,0 +1,66 @@
+# Context Engine Configuration
+
+# Embedding Model Settings
+embedding:
+  model_name: "all-MiniLM-L6-v2"  # Fast and efficient sentence transformer
+  embedding_dim: 384
+  device: "cpu"  # Use "cuda" if GPU available
+  batch_size: 32
+
+# Vector Database Settings
+vectordb:
+  type: "chromadb"
+  persist_directory: "./data/embeddings"
+  collection_name: "context_store"
+  distance_metric: "cosine"  # cosine, l2, or ip (inner product)
+
+# Indexer Settings
+indexer:
+  chunk_size: 512  # Characters per chunk
+  chunk_overlap: 128  # Overlap between chunks
+  supported_extensions:
+    - ".py"
+    - ".js"
+    - ".ts"
+    - ".java"
+    - ".cpp"
+    - ".c"
+    - ".go"
+    - ".rs"
+    - ".md"
+    - ".txt"
+    - ".json"
+    - ".yaml"
+    - ".yml"
+  exclude_patterns:
+    - "**/node_modules/**"
+    - "**/.git/**"
+    - "**/__pycache__/**"
+    - "**/dist/**"
+    - "**/build/**"
+    - "**/.venv/**"
+    - "**/venv/**"
+
+# Retriever Settings
+retriever:
+  top_k: 10  # Number of chunks to retrieve
+  similarity_threshold: 0.3  # Minimum similarity score
+  rerank: true  # Apply reranking after retrieval
+
+# Context Assembly Settings
+assembler:
+  max_tokens: 4000  # Maximum context tokens
+  compression_enabled: true  # Compress older content
+  include_metadata: true  # Include file paths and line numbers
+  ranking_strategy: "hybrid"  # hybrid, similarity, or recency
+
+# Memory Manager Settings
+memory:
+  session_directory: "./data/sessions"
+  max_history_items: 100
+  save_interval: 5  # Save every N interactions
+
+# Logging Settings
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+  file: "./logs/context_engine.log"
