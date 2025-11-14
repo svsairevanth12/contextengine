@@ -12,6 +12,60 @@ A **local, end-to-end runnable context engine** that stores and retrieves contex
 - **Session Management**: Stores conversation history and context across sessions
 - **Multi-Format Support**: Handles code files, markdown, text, and conversation history
 - **Fast & Lightweight**: Optimized for small to medium projects (<10k files)
+- **🆕 MCP Server**: Full Model Context Protocol support for AI coding agents (Claude Desktop, Cline, etc.)
+
+## 🚀 NEW: MCP Server Support!
+
+The Context Engine now includes a **built-in MCP (Model Context Protocol) server** that allows AI coding agents to semantically search your codebase in real-time!
+
+### What This Means for Your AI Agent:
+
+Your coding agent (Claude Desktop, Cline, etc.) can now:
+- 🔍 **Search your codebase semantically** - Find relevant code by meaning, not just keywords
+- 📁 **Get full file context** - Understand entire files with proper context
+- 🔗 **Find similar code** - Discover related implementations and patterns
+- 🎨 **Use smart prompts** - Pre-built templates for refactoring, debugging, testing
+- ⚡ **All locally** - No data leaves your machine, 100% private
+
+### Quick MCP Setup:
+
+1. **Add to Claude Desktop config** (`claude_desktop_config.json`):
+```json
+{
+  "mcpServers": {
+    "context-engine": {
+      "command": "python",
+      "args": ["/path/to/contextengine/mcp_server.py"],
+      "env": {
+        "CODEBASE_PATH": "/path/to/your/project"
+      }
+    }
+  }
+}
+```
+
+2. **Restart Claude Desktop** - Look for the 🔌 icon
+
+3. **Start coding!** Your agent now has full codebase context!
+
+**📖 Full MCP documentation:** See [MCP_GUIDE.md](MCP_GUIDE.md)
+
+**🛠️ 7 Tools Available:**
+- `search_codebase` - Semantic code search
+- `get_file_context` - Get full file contents
+- `find_similar_code` - Find related files
+- `index_paths` - Index new code
+- `get_codebase_stats` - Codebase statistics
+- `search_by_file_type` - Language-specific search
+- `find_definitions` - Find class/function definitions
+
+**🎨 6 Smart Prompts:**
+- `analyze_feature` - Analyze feature implementation
+- `debug_error` - Debug errors with context
+- `implement_similar` - Implement features following existing patterns
+- `refactor_code` - Refactor with codebase-aware suggestions
+- `add_tests` - Generate tests matching existing patterns
+- `find_dependencies` - Analyze component dependencies
 
 ## Architecture
 

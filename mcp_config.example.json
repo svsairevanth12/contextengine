@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "context-engine": {
+      "command": "python",
+      "args": ["/absolute/path/to/contextengine/mcp_server.py"],
+      "env": {
+        "CODEBASE_PATH": "/path/to/your/project",
+        "LOG_LEVEL": "INFO"
+      }
+    }
+  }
+}
