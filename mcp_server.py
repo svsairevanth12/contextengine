@@ -8,15 +8,31 @@ import sys
 import os
 import argparse
 import logging
+import signal
+import atexit
 
 # Add src to path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
 
 from mcp.server import create_server
 
+# Global server instance for cleanup
+_server_instance = None
+
+
+def cleanup_handler(signum=None, frame=None):
+    """Handle cleanup on shutdown signals."""
+    global _server_instance
+    logging.info(f"Received shutdown signal: {signum}")
+    if _server_instance:
+        _server_instance.cleanup()
+    sys.exit(0)
+
 
 def main():
     """Main entry point."""
+    global _server_instance
+
     parser = argparse.ArgumentParser(
         description="Context Engine MCP Server",
         formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -40,6 +56,9 @@ Usage with Claude Desktop:
 Environment Variables:
   CODEBASE_PATH - Path to codebase to index on startup
   LOG_LEVEL - Logging level (DEBUG, INFO, WARNING, ERROR)
+
+Note: Embeddings are ephemeral and cleared on startup/shutdown.
+      Each server start will re-index the codebase fresh.
         """
     )
 
@@ -89,7 +108,15 @@ Environment Variables:
     # Create and run server
     try:
         server = create_server(codebase_path=codebase_path)
+        _server_instance = server
+
+        # Register cleanup handlers for graceful shutdown
+        signal.signal(signal.SIGTERM, cleanup_handler)
+        signal.signal(signal.SIGINT, cleanup_handler)
+        atexit.register(lambda: _server_instance.cleanup() if _server_instance else None)
+
         logging.info("MCP Server started successfully")
+        logging.info("Embeddings will be cleared on shutdown for fresh indexing next time")
         server.run()
 
     except Exception as e:

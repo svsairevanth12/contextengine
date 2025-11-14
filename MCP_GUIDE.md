@@ -14,6 +14,20 @@ Your AI coding agent can now:
 - 🎨 **Use smart prompts** - Pre-built templates for common tasks
 - ⚡ **All locally** - No data leaves your machine
 
+## 🔄 Ephemeral Indexing
+
+**Important:** The MCP server uses ephemeral indexing for optimal performance across different codebases:
+
+- **On Startup:** Old embeddings are cleared and the codebase is indexed fresh
+- **On Shutdown:** Embeddings are deleted automatically
+- **Benefits:**
+  - ✅ Always fresh, up-to-date index
+  - ✅ No stale data across different projects
+  - ✅ Each codebase gets indexed clean
+  - ✅ No disk space wasted on old embeddings
+
+This ensures that every time you start the MCP server for a project, it gets a fresh index with the latest code changes.
+
 ## 🛠️ Available Tools
 
 The MCP server exposes **7 powerful tools**:

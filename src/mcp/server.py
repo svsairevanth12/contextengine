@@ -203,6 +203,16 @@ class MCPServer:
             }
         }
 
+    def cleanup(self):
+        """Clean up resources when server shuts down."""
+        self.logger.info("Cleaning up resources...")
+        try:
+            # Clear the index to remove embeddings
+            self.engine.clear_index()
+            self.logger.info("Index cleared successfully")
+        except Exception as e:
+            self.logger.error(f"Error during cleanup: {e}", exc_info=True)
+
     def run(self):
         """Run the MCP server (stdio mode)."""
         self.logger.info("Starting MCP server in stdio mode")
@@ -237,10 +247,12 @@ class MCPServer:
                     sys.stdout.flush()
 
         except KeyboardInterrupt:
-            self.logger.info("Server shutting down")
+            self.logger.info("Server interrupted by user")
         except Exception as e:
             self.logger.error(f"Server error: {e}", exc_info=True)
-            raise
+        finally:
+            # Always cleanup on shutdown
+            self.cleanup()
 
 
 def create_server(codebase_path: Optional[str] = None) -> MCPServer:
@@ -268,10 +280,14 @@ def create_server(codebase_path: Optional[str] = None) -> MCPServer:
 
     engine = ContextEngine(config_path=config_path)
 
-    # Index codebase if provided
+    # Clear old embeddings and index fresh if codebase provided
     if codebase_path and os.path.exists(codebase_path):
+        logging.info("Clearing old embeddings before fresh indexing...")
+        engine.clear_index()
+
         logging.info(f"Indexing codebase: {codebase_path}")
         engine.index_directory(codebase_path, recursive=True)
+        logging.info("Fresh indexing complete")
 
     # Create MCP server
     server = MCPServer(engine)
