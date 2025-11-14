@@ -2,6 +2,37 @@
 
 A **local, end-to-end runnable context engine** that stores and retrieves context using embeddings and vector search, specifically designed for AI coding assistants. All processing is done on your own machine without any external API calls.
 
+## ⚡ Quick Install
+
+### One-Line Installation (Recommended):
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/svsairevanth12/contextengine/claude/easy-mcp-install-01QbCguyLeCXRbad4kkgC7hD/install.sh | bash
+```
+
+**That's it!** The script will:
+- ✅ Install Context Engine to `~/.context-engine`
+- ✅ Download the embedding model
+- ✅ Generate MCP configuration
+- ✅ Optionally auto-configure Claude Desktop
+
+**See [INSTALL.md](INSTALL.md) for detailed installation options and manual setup.**
+
+### Quick Setup for Claude Desktop:
+
+1. Run the installer above OR use the config generator:
+   ```bash
+   python configure-mcp.py /path/to/your/project
+   ```
+
+2. Restart Claude Desktop
+
+3. Look for 🔌 icon - you're ready!
+
+**Full documentation:** [STEP_BY_STEP_GUIDE.md](STEP_BY_STEP_GUIDE.md)
+
+---
+
 ## Features
 
 - **Fully Local & Offline**: No API keys required, runs entirely on your machine

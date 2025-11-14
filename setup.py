@@ -37,7 +37,12 @@ setup(
     entry_points={
         "console_scripts": [
             "context-engine=main:main",
+            "context-engine-mcp=mcp_server:main",
         ],
+    },
+    include_package_data=True,
+    package_data={
+        "": ["config/*.yaml"],
     },
     classifiers=[
         "Development Status :: 3 - Alpha",
